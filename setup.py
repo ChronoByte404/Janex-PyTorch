@@ -5,15 +5,15 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     # Here is the module name.
-    name="Janex",
+    name="JanexPT",
 
     # version of the module
-    version="0.0.47",
+    version="0.0.1",
 
     # Name of Author
     author="Cipher58",
 
-    download_url = 'https://github.com/Cipher58/Janex-Python.git',
+    download_url = 'https://github.com/Cipher58/Janex-Pytorch',
 
     # your Email address
     author_email="cipher58public@gmail.com",
@@ -28,7 +28,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
 
     # Any link to reach this module, ***if*** you have any webpage or github profile
-    url="https://github.com/Cipher58/Janex-Python",
+    url="https://github.com/Cipher58/Janex-Pytorch",
 
     packages=setuptools.find_packages(),
 
@@ -38,6 +38,7 @@ setuptools.setup(
 
     install_requires=[
         "CipherProgram",
+        "torch",
         ],
 
 
