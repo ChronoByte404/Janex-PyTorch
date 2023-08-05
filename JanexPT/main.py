@@ -103,11 +103,14 @@ class JanexPT:
         for intent in self.intents['intents']:
             if tag == intent["tag"]:
                 print(tag)
-                return (f"{self.UIName}: {random.choice(intent['responses'])}")
+                BestResponse = self.IntentMatcher.response_compare(input_string, intent)
+                return BestResponse
 
     def trainpt(self):
         try:
+            open("train.py", "r")
             os.system("python3 train.py")
         except:
             print("Janex-PyTorch: Train program not detected, downloading from Github.")
-            os.system("curl -o train.py ")
+            os.system(f"curl -o train.py https://raw.githubusercontent.com/Cipher58/Janex-PyTorch/main/Stock/train.py")
+            os.system("python3 train.py")
