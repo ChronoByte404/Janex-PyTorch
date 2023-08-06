@@ -8,9 +8,6 @@ from torch.utils.data import Dataset, DataLoader
 
 import torch
 import torch.nn as nn
-import nltk
-# nltk.download('punkt')
-from nltk.stem.porter import PorterStemmer
 from Janex import *
 
 class NeuralNet(nn.Module):
@@ -31,12 +28,14 @@ class NeuralNet(nn.Module):
         return out
 
 stemmer = PorterStemmer()
+IM = IntentMatcher("intents.json", "thesaurus.json")
 
 def tokenize(sentence):
-    return IntentMatcher.tokenize(sentence)
+    input_string = sentence
+    return IM.tokenize(input_string)
 
 def stem(word):
-    return stemmer.stem(word.lower())
+    return IM.stem(word.lower())
 
 
 def bag_of_words(tokenized_sentence, words):
