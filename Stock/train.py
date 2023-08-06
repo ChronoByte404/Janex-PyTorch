@@ -27,7 +27,6 @@ class NeuralNet(nn.Module):
         # no activation and no softmax at the end
         return out
 
-stemmer = PorterStemmer()
 IM = IntentMatcher("intents.json", "thesaurus.json")
 
 def tokenize(sentence):
