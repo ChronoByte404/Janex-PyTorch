@@ -8,7 +8,7 @@ setuptools.setup(
     name="JanexPT",
 
     # version of the module
-    version="0.0.1",
+    version="0.0.4",
 
     # Name of Author
     author="Cipher58",
@@ -37,8 +37,9 @@ setuptools.setup(
     # then you must add there, in order to download every requirement of package
 
     install_requires=[
-        "CipherProgram",
+        "Janex",
         "torch",
+        "nltk",
         ],
 
 

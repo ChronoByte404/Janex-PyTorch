@@ -17,13 +17,13 @@ Next, create an instance of the JanexPT class and define the path to your intent
 ```
 intents_file_path, thesaurus_file_path, UIName = "intents.json", "thesaurus.json", "May" # Use whichever name you like.
 
-JanexPT = JanexPT(intents_file_path, thesaurus_file_path, UIName)
+janexpt = JanexPT(intents_file_path, thesaurus_file_path, UIName)
 
 ```
 
 Then, you will need to train your intents data into a pth file. If you do not have a training program, it will curl install the pre-built one from this repo.
 ```
-JanexPT.trainpt()
+janexpt.trainpt()
 ```
 
 Next, you need to give the program some text you wish to send to your AI, and then send it.
@@ -31,7 +31,7 @@ Next, you need to give the program some text you wish to send to your AI, and th
 YourInput = input("You: ")
 YourName = "Bob" # Whatever you wish your AI to refer to you as
 
-Response = JanexPT.SayToAI(YourInput, YourName)
+Response = janexpt.SayToAI(YourInput, YourName)
 
 print(Response)
 ```
