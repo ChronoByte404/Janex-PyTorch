@@ -81,7 +81,7 @@ class JanexPT:
         self.IntentMatcher = IntentMatcher(intents_file_path, thesaurus_file_path)
         self.intents = self.IntentMatcher.train()
 
-    def SayToAI(self, input_string, user):
+    def pattern_compare(self, input_string, user):
         self.model.load_state_dict(self.model_state)
         self.model.eval()
         sentence = input_string
@@ -102,9 +102,12 @@ class JanexPT:
 
         for intent in self.intents['intents']:
             if tag == intent["tag"]:
-                print(tag)
-                BestResponse = self.IntentMatcher.response_compare(input_string, intent)
-                return BestResponse
+                return intent
+
+    def response_compare(self, input_string, classification):
+        print(classification.get("tag"))
+        BestResponse = self.IntentMatcher.response_compare(input_string, classification)
+        return BestResponse
 
     def trainpt(self):
         try:

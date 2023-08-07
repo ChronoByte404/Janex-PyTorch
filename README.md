@@ -31,9 +31,10 @@ Next, you need to give the program some text you wish to send to your AI, and th
 YourInput = input("You: ")
 YourName = "Bob" # Whatever you wish your AI to refer to you as
 
-Response = JanexPT.SayToAI(YourInput, YourName)
+classification = JanexPT.pattern_compare(YourInput, YourName)
+response = JanexPT.response_compare(input_string, classification)
 
-print(Response)
+print(response)
 ```
 
 And there we have it, the code will use a NeuralNet to predict which class your input belongs in, and then uses the Janex library to pick the best response from those available.
