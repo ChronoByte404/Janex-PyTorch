@@ -37,8 +37,9 @@ setuptools.setup(
     # then you must add there, in order to download every requirement of package
 
     install_requires=[
-        "CipherProgram",
+        "Janex",
         "torch",
+        "nltk",
         ],
 
 

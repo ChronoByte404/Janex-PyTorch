@@ -16,9 +16,14 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 
+IM = IntentMatcher("intents.json", "thesaurus.json")
+
+def tokenize(sentence):
+    input_string = sentence
+    return IM.tokenize(input_string)
 
 def stem(word):
-    return stemmer.stem(word.lower())
+    return IM.stem(word.lower())
 
 def bag_of_words(tokenized_sentence, words):
     # stem each word
@@ -68,7 +73,17 @@ class JanexPT:
         self.intents_file_path = intents_file_path
         self.thesaurus_file_path = thesaurus_file_path
         self.FILE = "data.pth"
-        self.data = torch.load(self.FILE)
+        self.model = NeuralNet(self.input_size, self.hidden_size, self.output_size).to(self.device)
+        self.UIName = UIName
+        self.IntentMatcher = IntentMatcher(intents_file_path, thesaurus_file_path)
+        self.intents = self.IntentMatcher.train()
+
+    def SayToAI(self, input_string, user):
+        try:
+            self.data = torch.load(self.FILE)
+        except:
+            self.trainpt()
+            self.data = torch.load(self.FILE)
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.input_size = self.data["input_size"]
         self.hidden_size = self.data["hidden_size"]
