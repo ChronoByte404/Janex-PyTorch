@@ -73,12 +73,11 @@ class JanexPT:
         self.intents_file_path = intents_file_path
         self.thesaurus_file_path = thesaurus_file_path
         self.FILE = "data.pth"
-        self.model = NeuralNet(self.input_size, self.hidden_size, self.output_size).to(self.device)
         self.UIName = UIName
         self.IntentMatcher = IntentMatcher(intents_file_path, thesaurus_file_path)
         self.intents = self.IntentMatcher.train()
 
-    def SayToAI(self, input_string, user):
+    def pattern_compare(self, input_string, user):
         try:
             self.data = torch.load(self.FILE)
         except:
@@ -92,11 +91,7 @@ class JanexPT:
         self.tags = self.data['tags']
         self.model_state = self.data["model_state"]
         self.model = NeuralNet(self.input_size, self.hidden_size, self.output_size).to(self.device)
-        self.UIName = UIName
-        self.IntentMatcher = IntentMatcher(intents_file_path, thesaurus_file_path)
         self.intents = self.IntentMatcher.train()
-
-    def pattern_compare(self, input_string, user):
         self.model.load_state_dict(self.model_state)
         self.model.eval()
         sentence = input_string
