@@ -37,4 +37,4 @@ response = JanexPT.response_compare(input_string, classification)
 print(response)
 ```
 
-And there we have it, the code will use a NeuralNet to predict which class your input belongs in, and then uses the Janex library to pick the best response from those available.
+And there we have it, the code will use a triple-layer NeuralNet to predict which class your input belongs in, and then uses the Janex library to pick the best response from those available.
