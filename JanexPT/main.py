@@ -16,14 +16,11 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 
-IM = IntentMatcher("intents.json", "thesaurus.json")
-
 def tokenize(sentence):
-    input_string = sentence
-    return IM.tokenize(input_string)
+    return nltk.word_tokenize(sentence)
 
 def stem(word):
-    return IM.stem(word.lower())
+    return stemmer.stem(word.lower())
 
 def bag_of_words(tokenized_sentence, words):
     # stem each word
