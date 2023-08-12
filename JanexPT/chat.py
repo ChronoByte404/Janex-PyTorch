@@ -8,5 +8,7 @@ JanexPT = JanexPT(intentfp, thesaurusfp, UIName)
 inputstr = input("You: ")
 IC = JanexPT.pattern_compare(inputstr, "Jack")
 Response = JanexPT.response_compare(inputstr, IC)
+NewResponse = JanexPT.generate_response_with_synonyms(Response)
 
 print(Response)
+print(NewResponse)

@@ -5,6 +5,11 @@ from Janex import *
 
 import numpy as np
 import nltk
+import nltk
+from nltk.corpus import wordnet
+from nltk.tokenize import word_tokenize
+from nltk.tag import pos_tag
+
 from nltk.stem.porter import PorterStemmer
 stemmer = PorterStemmer()
 
@@ -73,6 +78,9 @@ class JanexPT:
         self.UIName = UIName
         self.IntentMatcher = IntentMatcher(intents_file_path, thesaurus_file_path)
         self.intents = self.IntentMatcher.train()
+        nltk.download('punkt')
+        nltk.download('wordnet')
+        nltk.download('averaged_perceptron_tagger')
 
     def pattern_compare(self, input_string, user):
         try:
@@ -115,6 +123,60 @@ class JanexPT:
         print(classification.get("tag"))
         BestResponse = self.IntentMatcher.response_compare(input_string, classification)
         return BestResponse
+
+    def ResponseGenerator(self, response):
+        synonyms = []
+
+        response_list = self.IntentMatcher.tokenize(response)
+
+        for token in response_list:
+            for syn in wordnet.synsets(token):
+                for lemma in syn.lemmas():
+                    synonyms.append(lemma.name())
+
+        synonyms = list(set(synonyms))
+
+        synonyms = [s for s in synonyms if s != token]
+
+        new_response = " ".join(synonyms)
+
+        return new_response
+
+    def get_wordnet_pos(self, treebank_tag):
+        if treebank_tag.startswith('J'):
+            return wordnet.ADJ
+        elif treebank_tag.startswith('V'):
+            return wordnet.VERB
+        elif treebank_tag.startswith('N'):
+            return wordnet.NOUN
+        elif treebank_tag.startswith('R'):
+            return wordnet.ADV
+        else:
+            return wordnet.NOUN  # Default to Noun
+
+    def generate_response_with_synonyms(self, response):
+        response_list = word_tokenize(response)
+        tagged_response = pos_tag(response_list)
+        new_response = []
+
+        for word, tag in tagged_response:
+            og_word = word
+            synsets = wordnet.synsets(word, pos=self.get_wordnet_pos(tag))
+            if synsets:
+                synonyms = synsets[0].lemmas()  # Use the first synonym
+                new_word = synonyms[0].name() if synonyms else word
+                if og_word.istitle():
+                    new_word = new_word.capitalize()
+            else:
+                new_word = word
+                if og_word.istitle():
+                    new_word = new_word.capitalize()
+
+            response = response.replace(og_word, new_word)
+
+        response = self.IntentMatcher.ResponseGenerator(response)
+
+        return response
 
     def trainpt(self):
         try:
