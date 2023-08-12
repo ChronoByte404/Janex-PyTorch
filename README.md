@@ -38,3 +38,10 @@ print(response)
 ```
 
 And there we have it, the code will use a triple-layer NeuralNet to predict which class your input belongs in, and then uses the Janex library to pick the best response from those available.
+
+If you would like your responses to be regenerated using the NLTK wordnet function, then you can use the experimental Response Generator, which uses both Janex and NLTK to fine-tune the response and make it less pre-programmed in a sense. Although, the coherence of your responses relies on the accuracy of both vanilla Janex and the Natural Language Toolkit. Here is the code.
+
+```
+NewResponse = JanexPT.generate_response_with_synonyms(response)
+print(NewResponse)
+```
