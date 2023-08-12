@@ -122,5 +122,5 @@ class JanexPT:
             os.system("python3 train.py")
         except:
             print("Janex-PyTorch: Train program not detected, downloading from Github.")
-            os.system(f"curl -o train.py https://raw.githubusercontent.com/Cipher58/Janex-PyTorch/main/Stock/train.py")
+            os.system(f"curl -o train.py https://raw.githubusercontent.com/Cipher58/Janex-PyTorch/main/Stock/train.py -#")
             os.system("python3 train.py")
