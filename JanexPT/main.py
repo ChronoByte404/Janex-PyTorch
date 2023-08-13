@@ -154,12 +154,15 @@ class JanexPT:
         else:
             return wordnet.NOUN  # Default to Noun
 
-    def generate_response_with_synonyms(self, response):
+    def generate_response_with_synonyms(self, response, strength):
         response_list = word_tokenize(response)
         tagged_response = pos_tag(response_list)
         new_response = []
+        prestrength = 0
 
         for word, tag in tagged_response:
+            if prestrength > strength:
+                break
             og_word = word
             synsets = wordnet.synsets(word, pos=self.get_wordnet_pos(tag))
             if synsets:
@@ -173,6 +176,7 @@ class JanexPT:
                     new_word = new_word.capitalize()
 
             response = response.replace(og_word, new_word)
+            prestrength += 1
 
         response = self.IntentMatcher.ResponseGenerator(response)
 
