@@ -176,7 +176,7 @@ class JanexPT:
                     new_word = new_word.capitalize()
 
             response = response.replace(og_word, new_word)
-            prestrength += 1
+            prestrength = prestrength + 1
 
         response = self.IntentMatcher.ResponseGenerator(response)
 
