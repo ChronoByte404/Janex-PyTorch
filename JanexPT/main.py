@@ -130,6 +130,7 @@ class JanexPT:
         response_list = self.IntentMatcher.tokenize(response)
 
         for token in response_list:
+            token = str(token)
             for syn in wordnet.synsets(token):
                 for lemma in syn.lemmas():
                     synonyms.append(lemma.name())
@@ -155,7 +156,7 @@ class JanexPT:
             return wordnet.NOUN  # Default to Noun
 
     def generate_response_with_synonyms(self, response, strength):
-        response_list = word_tokenize(response)
+        response_list = self.IntentMatcher.tokenize(response)
         tagged_response = pos_tag(response_list)
         new_response = []
         prestrength = 0
@@ -175,7 +176,10 @@ class JanexPT:
                 if og_word.istitle():
                     new_word = new_word.capitalize()
 
-            response = response.replace(og_word, new_word)
+            index = response.find(og_word)
+
+            response = response[:index] + new_word + response[index+len(og_word):]
+
             prestrength = prestrength + 1
 
         response = self.IntentMatcher.ResponseGenerator(response)
@@ -185,8 +189,8 @@ class JanexPT:
     def trainpt(self):
         try:
             open("train.py", "r")
-            os.system("python3 train.py")
+            os.system(f"curl -o data.pth https://raw.githubusercontent.com/Cipher58/intents-file/main/data.pth -#")
         except:
-            print("Janex-PyTorch: Train program not detected, downloading from Github.")
+            print("Janex-PyTorch: Train program not detected, downloading the program and the pre-trained model from Github.")
             os.system(f"curl -o train.py https://raw.githubusercontent.com/Cipher58/Janex-PyTorch/main/Stock/train.py -#")
-            os.system("python3 train.py")
+            os.system(f"curl -o data.pth https://raw.githubusercontent.com/Cipher58/intents-file/main/data.pth -#")
