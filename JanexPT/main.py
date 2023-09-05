@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import os
 
 from Janex import *
 
@@ -71,18 +72,16 @@ class ChatDataset(Dataset):
         return self.n_samples
 
 class JanexPT:
-    def __init__(self, intents_file_path, thesaurus_file_path, UIName):
-        self.intents_file_path = intents_file_path
-        self.thesaurus_file_path = thesaurus_file_path
+    def __init__(self, intents_file_path):
         self.FILE = "data.pth"
-        self.UIName = UIName
-        self.IntentMatcher = IntentMatcher(intents_file_path, thesaurus_file_path)
-        self.intents = self.IntentMatcher.train()
+        self.Classifier = IntentClassifier()
+        self.Classifier.set_intentsfp(intents_file_path)
         nltk.download('punkt')
         nltk.download('wordnet')
         nltk.download('averaged_perceptron_tagger')
+        self.intents = self.Classifier.load_intents()
 
-    def pattern_compare(self, input_string, user):
+    def pattern_compare(self, input_string):
         try:
             self.data = torch.load(self.FILE)
         except:
@@ -96,12 +95,12 @@ class JanexPT:
         self.tags = self.data['tags']
         self.model_state = self.data["model_state"]
         self.model = NeuralNet(self.input_size, self.hidden_size, self.output_size).to(self.device)
-        self.intents = self.IntentMatcher.train()
+        self.intents = self.Classifier.load_intents()
         self.model.load_state_dict(self.model_state)
         self.model.eval()
         sentence = input_string
 
-        sentence = self.IntentMatcher.tokenize(sentence)
+        sentence = tokenize(sentence)
 
         X = bag_of_words(sentence, self.all_words)
         X = X.reshape(1, X.shape[0])
@@ -117,12 +116,8 @@ class JanexPT:
 
         for intent in self.intents['intents']:
             if tag == intent["tag"]:
+                self.intent = intent
                 return intent
-
-    def response_compare(self, input_string, classification):
-        print(classification.get("tag"))
-        BestResponse = self.IntentMatcher.response_compare(input_string, classification)
-        return BestResponse
 
     def ResponseGenerator(self, response):
         synonyms = []

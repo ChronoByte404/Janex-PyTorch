@@ -8,7 +8,7 @@ setuptools.setup(
     name="JanexPT",
 
     # version of the module
-    version="0.0.27",
+    version="0.0.40",
 
     # Name of Author
     author="Cipher58",

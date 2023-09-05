@@ -1,6 +1,7 @@
 import numpy as np
 import random
 import json
+import os
 
 import torch
 import torch.nn as nn
@@ -9,6 +10,7 @@ from torch.utils.data import Dataset, DataLoader
 import torch
 import torch.nn as nn
 from Janex import *
+from Janex.word_manipulation import *
 
 class NeuralNet(nn.Module):
     def __init__(self, input_size, hidden_size, num_classes):
@@ -27,15 +29,8 @@ class NeuralNet(nn.Module):
         # no activation and no softmax at the end
         return out
 
-IM = IntentMatcher("intents.json", "thesaurus.json")
-
-def tokenize(sentence):
-    input_string = sentence
-    return IM.tokenize(input_string)
-
-def stem(word):
-    return IM.stem(word.lower())
-
+IM = IntentClassifier()
+IM.set_intentsfp("intents.json")
 
 def bag_of_words(tokenized_sentence, words):
     # stem each word
