@@ -8,7 +8,6 @@ import numpy as np
 import nltk
 import nltk
 from nltk.corpus import wordnet
-from nltk.tokenize import word_tokenize
 from nltk.tag import pos_tag
 
 from nltk.stem.porter import PorterStemmer
@@ -21,12 +20,6 @@ import json
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
-
-def tokenize(sentence):
-    return nltk.word_tokenize(sentence)
-
-def stem(word):
-    return stemmer.stem(word.lower())
 
 def bag_of_words(tokenized_sentence, words):
     # stem each word
@@ -189,3 +182,6 @@ class JanexPT:
             print("Janex-PyTorch: Train program not detected, downloading the program and the pre-trained model from Github.")
             os.system(f"curl -o train.py https://raw.githubusercontent.com/Cipher58/Janex-PyTorch/main/Stock/train.py -#")
             os.system(f"curl -o data.pth https://raw.githubusercontent.com/Cipher58/intents-file/main/data.pth -#")
+
+    def modify_data_path(self, new_path):
+        self.FILE = new_path
