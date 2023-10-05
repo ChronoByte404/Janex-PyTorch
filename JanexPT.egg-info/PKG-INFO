@@ -1,11 +1,13 @@
 Metadata-Version: 2.1
 Name: JanexPT
-Version: 0.0.45
+Version: 0.0.46
+Summary: UNKNOWN
 Home-page: https://github.com/Cipher58/Janex-Pytorch
-Download-URL: https://github.com/Cipher58/Janex-Pytorch
 Author: Cipher58
 Author-email: cipher58public@gmail.com
 License: Lily 1.0
+Download-URL: https://github.com/Cipher58/Janex-Pytorch
+Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: Operating System :: OS Independent
 Description-Content-Type: text/markdown
@@ -60,3 +62,5 @@ strength = 5 # for example, will only inspect five tokens from the response, and
 NewResponse = JanexPT.generate_response_with_synonyms(response, strength)
 print(NewResponse)
 ```
+
+
