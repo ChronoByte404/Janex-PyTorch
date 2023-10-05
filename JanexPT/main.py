@@ -3,6 +3,7 @@ import torch.nn as nn
 import os
 
 from Janex import *
+from Janex.intentclassifier import *
 
 import numpy as np
 import nltk
