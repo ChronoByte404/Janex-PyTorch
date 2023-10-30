@@ -74,6 +74,10 @@ class JanexPT:
         nltk.download('wordnet')
         nltk.download('averaged_perceptron_tagger')
         self.intents = self.Classifier.load_intents()
+        self.device = torch.device('cpu')
+
+    def set_device(self, device):
+        self.device = torch.device(device)
 
     def pattern_compare(self, input_string):
         try:
@@ -81,7 +85,6 @@ class JanexPT:
         except:
             self.trainpt()
             self.data = torch.load(self.FILE)
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.input_size = self.data["input_size"]
         self.hidden_size = self.data["hidden_size"]
         self.output_size = self.data["output_size"]
@@ -186,3 +189,11 @@ class JanexPT:
 
     def modify_data_path(self, new_path):
         self.FILE = new_path
+
+if __name__ == "__main__":
+    intentfp, thesaurusfp, UIName = "intents.json", "thesaurus.json", "Ultron"
+    JanexPT = JanexPT(intentfp)
+    JanexPT.set_device('cpu')
+    inputstr = input("You: ")
+    IC = JanexPT.pattern_compare(inputstr)
+    print(IC)
