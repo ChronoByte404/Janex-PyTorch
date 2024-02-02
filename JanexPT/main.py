@@ -75,6 +75,7 @@ class JanexPT:
         nltk.download('averaged_perceptron_tagger')
         self.intents = self.Classifier.load_intents()
         self.device = torch.device('cpu')
+        self.accuracy = None
 
     def set_device(self, device):
         self.device = torch.device(device)
@@ -109,7 +110,9 @@ class JanexPT:
         tag = self.tags[predicted.item()]
 
         probs = torch.softmax(output, dim=1)
-        probs = probs[0][predicted.item()]
+        prob = probs[0][predicted.item()]
+
+        self.accuracy = prob.item()
 
         for intent in self.intents['intents']:
             if tag == intent["tag"]:
